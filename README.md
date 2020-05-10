@@ -14,7 +14,7 @@ pip install ALMa
 ```
 
 ## Use
-Check out the full [example for text classification]('./examples/text_text_classification_with_modAL')
+Check out the full [example for text classification](examples/text_classification_with_modAL.py)
  
 ```python
 from ALMa import ActiveLearningManager
