@@ -59,26 +59,27 @@ class ActiveLearningManager:
         for label in labels:
             self.labeled_mask[label[0]] = True
 
-    def _offset_new_labes(self, labels: LabelList):
+    def _offset_new_labels(self, labels_for_unlabeled_dataset: LabelList):
         """
         This is where the magic happens.
         We take self.unlabeled_mask.nonzero()[0] which gives us an array of the indices that appear in the unlabeled
         data. So if the original label was at position 0 we look up the "real index" in the unlabeled_indices array to
         get it's true index
-        :param labels:
-        :return:
+        :param labels_for_unlabeled_dataset A LabelList indexed according to the unlabeled dataset:
+        :return:labels_for_dataset A LabelList indexed according to the original dataset
         """
         if len(self._labels) == 0:
             # Nothing to correct in this case
-            return labels
-        correctLabels: LabelList = []
-        unlabeled_indices = self.unlabeled_mask.nonzero()[0]
+            return labels_for_unlabeled_dataset
+        labels_for_dataset: LabelList = []
+        unlabeled_indices_map = self.unlabeled_mask.nonzero()[0]
 
-        for label in labels:
-            newIndex = unlabeled_indices[label[0]]
-            newLabel: Label = (newIndex, label[1])
-            correctLabels.append(newLabel)
-        return correctLabels
+        for label in labels_for_unlabeled_dataset:
+            index_in_unlabeled, annotation = label
+            index_in_dataset = unlabeled_indices_map[index_in_unlabeled]
+            new_label: Label = (index_in_dataset, annotation)
+            labels_for_dataset.append(new_label)
+        return labels_for_dataset
 
     def add_labels(self, labels: LabelList, offset_to_unlabeled=True):
         if isinstance(labels, tuple):  # if this is a single example
@@ -90,7 +91,7 @@ class ActiveLearningManager:
                 "Malformed input. Please add either a tuple (ix,label) or a list [(ix,label),..]"
             )
         if offset_to_unlabeled:
-            labels = self._offset_new_labes(labels)
+            labels = self._offset_new_labels(labels)
         self._update_masks(labels)
         for label in labels:
             self._labels[label[0]] = label[1]

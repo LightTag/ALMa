@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="ALMa", # Replace with your own username
-    version="0.0.1",
+    version="0.0.2",
     author="Tal Perry",
     author_email="tal@lighttag.io",
     description="Easily track labeled and unlabeled data for active learning",

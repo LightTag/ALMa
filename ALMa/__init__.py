@@ -1,1 +1,1 @@
-from .activelearningmanager import *
+from ALMa.activelearningmanager import ActiveLearningManager
