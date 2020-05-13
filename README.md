@@ -1,4 +1,4 @@
-# ALMa - An Active Leanring (data) Manager
+# ALMa - An Active Learning (data) Manager
 
 ALMa elimiates the need for bookkeeping when using Active Learning. Read the blog post
 on [Active Learning with ALMa](https://www.lighttag.io/blog/active-learning-manager/)
